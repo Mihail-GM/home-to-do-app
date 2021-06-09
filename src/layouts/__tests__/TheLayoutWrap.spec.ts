@@ -18,20 +18,18 @@ const router = new VueRouter({
     routes
 })
 
-function createWrapper(overrides : any) : any {
+function createWrapper(overrides: any): any {
 
     let vuetify = new Vuetify()
 
     const defaultMountingOptions = {
-
         localVue,
         vuetify,
         stubs: ['router-link', 'router-view'],
         router,
-
     }
 
-    return mount(TheLayoutWrap, merge(defaultMountingOptions, overrides));
+    return shallowMount(TheLayoutWrap, merge(defaultMountingOptions, overrides));
 }
 
 describe('TheLayoutWrap.vue', () => {
@@ -50,26 +48,4 @@ describe('TheLayoutWrap.vue', () => {
         expect(wrapper.is(TheLayoutWrap)).toBe(true);
     })
 
-
-    test('router push correct URL when click on task icon', async () => {
-
-        const wrapper = createWrapper(vuetify);
-        await flushPromises()
-        // expect(wrapper.is(TheLayoutWrap)).toBe(true);
-
-        expect(wrapper.find({ name: 'v-navigation-drawer' }).exists()).toBe(true);
-
-        expect(wrapper.find({ name: 'v-list' }).exists()).toBe(true);
-
-        // expect(wrapper.find("#menu-link-1").exists()).toBe(true);
-
-        // expect(wrapper.find(".v-navigation-drawer").exists()).toBe(true);
-
-
-
-        // expect(wrapper.find("#menu-link-1").exists()).toBe(true);
-
-        // expect(wrapper.find("#menu-link-1").attributes().href).toBe('/tasks')
-
-    })
 })

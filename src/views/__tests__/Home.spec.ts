@@ -1,13 +1,11 @@
 import {shallowMount, mount, createLocalVue, Wrapper} from '@vue/test-utils'
 import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
-import TheLayoutWrap from "@/layouts/TheLayoutWrap.vue";
-
 
 describe('HelloWorld.vue', () => {
 
 
-    let wrapper: Wrapper<Record<never, any> & TheLayoutWrap>;
+    let wrapper;
 
     beforeEach(() => {
         const localVue = createLocalVue();
@@ -18,17 +16,6 @@ describe('HelloWorld.vue', () => {
         });
 
     })
-    //
-    // test('router push correct URL when click on task icon', () => {
-    //
-    //
-    //     // expect(wrapper.is(TheLayoutWrap)).toBe(true);
-    //
-    //     expect(wrapper.find("#menu-link-1").exists()).toBe(true);
-    //
-    //
-    // })
-
 
     test('renders props.msg when passed', () => {
 
@@ -41,12 +28,10 @@ describe('HelloWorld.vue', () => {
         const localVue = createLocalVue();
         let vuetify = new Vuetify()
 
-        const wrapper = mount(Home, {
+        const wrapper = shallowMount(Home, {
             localVue,
             vuetify
         });
-
-        // expect(wrapper.find(".v-navigation-drawer").exists()).toBe(true);
 
         expect(wrapper.text()).toMatch("Home tasks App");
     })

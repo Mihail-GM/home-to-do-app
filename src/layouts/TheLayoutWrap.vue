@@ -5,24 +5,7 @@
 			fixed
 			app
 		>
-			<v-list>
-				<v-list-item
-					v-for="(item, i) in items"
-					:key="i"
-					:to="item.to"
-					:id="'menu-link-' + i"
-					router
-					exact
-				>
-					<v-list-item-action>
-						<v-icon>{{ item.icon }}</v-icon>
-					</v-list-item-action>
-					<v-list-item-content>
-						<v-list-item-title v-text="item.title"/>
-					</v-list-item-content>
-				</v-list-item>
-			</v-list>
-
+			<TheLayoutWrapMenuList :items-prop="items"/>
 		</v-navigation-drawer>
 
 		<v-app-bar app>
@@ -45,89 +28,26 @@
 			</v-container>
 		</v-main>
 
-<!--		<v-footer app>-->
-<!--			&lt;!&ndash; &ndash;&gt;-->
-<!--		</v-footer>-->
+		<!--		<v-footer app>-->
+		<!--			&lt;!&ndash; &ndash;&gt;-->
+		<!--		</v-footer>-->
 	</v-app>
-
-	<!--	<v-app dark>-->
-	<!--		<v-navigation-drawer-->
-	<!--			v-model="drawer"-->
-	<!--			:mini-variant="miniVariant"-->
-	<!--			:clipped="clipped"-->
-	<!--			fixed-->
-	<!--			app-->
-	<!--		>-->
-	<!--			<v-list>-->
-	<!--				<v-list-item-->
-	<!--					v-for="(item, i) in items"-->
-	<!--					:key="i"-->
-	<!--					:to="item.to"-->
-	<!--					router-->
-	<!--					exact-->
-	<!--				>-->
-	<!--					<v-list-item-action>-->
-	<!--						<v-icon>{{ item.icon }}</v-icon>-->
-	<!--					</v-list-item-action>-->
-	<!--					<v-list-item-content>-->
-	<!--						<v-list-item-title v-text="item.title"/>-->
-	<!--					</v-list-item-content>-->
-	<!--				</v-list-item>-->
-	<!--			</v-list>-->
-	<!--		</v-navigation-drawer>-->
-
-	<!--		<v-app-bar-->
-	<!--			:clipped-left="clipped"-->
-	<!--			fixed-->
-	<!--			app-->
-	<!--		>-->
-	<!--			<v-btn-->
-	<!--				icon-->
-	<!--				@click.stop="miniVariant = !miniVariant"-->
-	<!--			>-->
-	<!--				<v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>-->
-	<!--			</v-btn>-->
-
-	<!--			<v-toolbar-title v-text="title"/>-->
-
-	<!--			<v-spacer></v-spacer>-->
-
-	<!--			<v-avatar color="green">-->
-	<!--				<v-icon dark>-->
-	<!--					mdi-account-circle-->
-	<!--				</v-icon>-->
-	<!--			</v-avatar>-->
-	<!--		</v-app-bar>-->
-	<!--		<v-main>-->
-	<!--			<v-container>-->
-
-	<!--			</v-container>-->
-	<!--		</v-main>-->
-
-	<!--		<v-footer-->
-	<!--			:absolute="!fixed"-->
-	<!--			app-->
-	<!--		>-->
-	<!--			<v-spacer/>-->
-	<!--			<span>&copy; DigitalWebee {{ new Date().getFullYear() }}</span>-->
-	<!--		</v-footer>-->
-	<!--	</v-app>-->
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted, computed, onUnmounted } from "@vue/composition-api";
+	import {defineComponent, ref, onMounted, computed, onUnmounted} from "@vue/composition-api";
+	import TheLayoutWrapMenuList from "../components/TheLayoutWrapMenuList";
 
 	export default defineComponent({
 		name: "TheLayoutWrap",
+		components: {
+			TheLayoutWrapMenuList
+		},
 
 		setup() {
-			// const theme = ref('light')
-			//
-			// let clipped = ref(false)
-			let drawer = ref(true)
-			// let fixed = ref(false)
-			// let miniVariant = ref(true)
-			let items = ref([
+
+			const drawer = ref(true)
+			const items = ref([
 				{
 					icon: 'mdi-home-circle',
 					title: 'Home',

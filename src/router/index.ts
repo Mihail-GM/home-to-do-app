@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, {RouteConfig} from 'vue-router'
 import Home from '../views/Home.vue'
 import AppContent from "@/AppContent.vue";
+import Tasks from "@/views/Tasks.vue";
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,11 @@ const routes: Array<RouteConfig> = [
             {
                 path: '/dashboard',
                 component: Home,
+            },
+
+            {
+                path: '/tasks',
+                component: Tasks,
             },
         ],
     },

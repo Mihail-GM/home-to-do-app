@@ -116,4 +116,45 @@ describe('TaskList.vue', () => {
         expect(element.text()).toBe("Remaining: 1");
     });
 
+    test('should render add button with text Add task', async () => {
+
+        const wrapper = createWrapper({
+            propsData: {
+                taskListProp: {
+                    name: "task group 1",
+                    tasks: [
+                        {done: false, title: 'test', url: 'test'},
+                        {done: true, title: "test", url: 'test'}
+                    ]
+                }
+            }
+        });
+
+        const element = wrapper.find('#add-task-button span')
+
+        expect(element.text()).toBe("Add task");
+    });
+
+    test('should open modal for adding task in task list', async () => {
+
+        const wrapper = createWrapper({
+            propsData: {
+                taskListProp: {
+                    name: "task group 1",
+                    tasks: [
+                        {done: false, title: 'test', url: 'test'},
+                        {done: true, title: "test", url: 'test'}
+                    ]
+                }
+            }
+        });
+
+        const element = wrapper.find('#add-task-button')
+
+        element.trigger('click');
+        await flushPromises();
+
+        expect(wrapper.emitted().openAddTaskModal).toBeTruthy()
+    });
+
 })

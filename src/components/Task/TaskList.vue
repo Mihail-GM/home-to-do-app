@@ -64,6 +64,22 @@
 				</v-slide-y-transition>
 			</v-card>
 
+			<v-btn
+				text
+				color="dark"
+				id="add-task-button"
+				block
+				@click.native="$emit('openAddTaskModal')"
+			>
+				<v-icon
+					color="green"
+					dark
+				>
+					mdi-plus
+				</v-icon>
+				<span> Add task </span>
+			</v-btn>
+
 		</v-container>
 	</div>
 </template>
@@ -83,9 +99,9 @@
 				type: Object as PropType<TasksListModel>,
 			}
 		},
+		emits: ['openAddTaskModal'],
 
-
-		setup(props) {
+		setup(props, {emit}) {
 
 			const tasksGroup = computed(() => props.taskListProp);
 
@@ -105,7 +121,7 @@
 				tasksGroup,
 				numberCompletedTasks,
 				progressOfTasks,
-				remainingTasks
+				remainingTasks,
 			}
 		}
 	});

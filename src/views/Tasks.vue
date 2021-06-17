@@ -13,13 +13,16 @@
 				>
 					<task-list
 						:taskListProp="taskList"
+						@openAddTaskModal="openAddTaskModalHandler"
 					/>
 				</v-col>
 
 			</v-row>
 		</div>
 
-		<task-create-modal :show-dialog-prop="true"/>
+		<task-create-modal
+			:show-dialog-prop.sync="showCreateTaskModal"
+		/>
 
 		<v-btn
 			class="ma-2"
@@ -49,6 +52,7 @@
 	export default defineComponent({
 		name: "Tasks",
 		components: {TaskCreateModal, TaskList, TaskListItem},
+		emits: ['openAddTaskModal'],
 
 		setup() {
 			const taskTest = ref({
@@ -57,6 +61,7 @@
 				done: true
 			})
 
+			const showCreateTaskModal = ref(false);
 			const allTasksLists = ref<TasksListModel[]>([
 				{
 					name: "task group 1",
@@ -85,9 +90,17 @@
 
 			])
 
+			const openAddTaskModalHandler = (() => {
+				console.log("handler");
+				showCreateTaskModal.value = true;
+
+			});
+
 			return {
 				taskTest,
-				allTasksLists
+				allTasksLists,
+				openAddTaskModalHandler,
+				showCreateTaskModal,
 			};
 		}
 	});

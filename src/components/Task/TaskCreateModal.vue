@@ -33,7 +33,7 @@
 					color="red darken-1"
 					id="close-button"
 					text
-					@click.native="showDialog = false"
+					@click.native="$emit('update:showDialogProp', false)"
 				>
 					Close
 				</v-btn>
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent, ref} from "@vue/composition-api";
+	import {computed, defineComponent, ref} from "@vue/composition-api";
 	import TasksModel from "@/models/interfaces/TasksModel";
 	import TaskService from "@/services/tasks.services"
 	import TaskModule from "@/store/modules/Tasks"
@@ -67,9 +67,8 @@
 			}
 		},
 
-		setup(props) {
+		setup(props, { emit }) {
 
-			const showDialog = ref(props.showDialogProp);
 			const task = ref<TasksModel>(
 				{
 					done: false,
@@ -77,6 +76,11 @@
 					url: 'test',
 				}
 			);
+
+			const showDialog = computed({
+				get: () => props.showDialogProp,
+				set: (value) => emit('update:showDialogProp', value)
+			});
 
 			const saveTask = (async () => {
 

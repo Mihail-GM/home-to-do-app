@@ -153,4 +153,27 @@ describe('TaskCreateModal.vue', () => {
             url: 'test',
         });
     });
+
+    test('save button should emit update to close the modal', async () => {
+
+        const wrapper = createWrapper(null);
+
+        const element = wrapper.find('#create-button');
+        element.trigger('click');
+        await flushPromises();
+
+        expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
+    });
+
+    test('close button should emit update to close the modal', async () => {
+
+        const wrapper = createWrapper(null);
+
+        const element = wrapper.find('#close-button');
+        element.trigger('click');
+        await flushPromises();
+
+        expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
+    });
+
 })

@@ -7,9 +7,11 @@ import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
 import flushPromises from "flush-promises";
 import TaskListItem from "../TaskListItem.vue"
+import Vue from "vue";
+
+Vue.use(Vuetify)
 
 const localVue = createLocalVue();
-localVue.use(Vuetify);
 
 const routes = [{path: '/dashboard', component: Home}]
 
@@ -22,25 +24,16 @@ function createWrapper(overrides: any): any {
     let vuetify = new Vuetify()
 
     const defaultMountingOptions = {
-
         localVue,
         vuetify,
         stubs: ['router-link', 'router-view'],
         router,
-
     }
 
     return shallowMount(TaskListItem, merge(defaultMountingOptions, overrides));
 }
 
 describe('TaskListItem.vue', () => {
-
-    let vuetify: Vuetify
-
-    beforeEach(() => {
-
-        vuetify = new Vuetify();
-    });
 
     test('should render TaskListItem on mount', async () => {
 
@@ -50,7 +43,6 @@ describe('TaskListItem.vue', () => {
             done: false
         };
         const wrapper = createWrapper({
-            vuetify,
             propsData: {taskProp}
         });
 
@@ -68,7 +60,6 @@ describe('TaskListItem.vue', () => {
             done: false
         };
         const wrapper = createWrapper({
-            vuetify,
             propsData: {taskProp}
         });
 
@@ -86,7 +77,6 @@ describe('TaskListItem.vue', () => {
             done: false
         };
         const wrapper = createWrapper({
-            vuetify,
             propsData: {taskProp}
         });
 
@@ -105,7 +95,6 @@ describe('TaskListItem.vue', () => {
             done: true
         };
         const wrapper = createWrapper({
-            vuetify,
             propsData: {taskProp}
         });
 

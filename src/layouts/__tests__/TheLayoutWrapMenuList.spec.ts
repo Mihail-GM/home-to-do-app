@@ -1,4 +1,4 @@
-import {shallowMount, RouterLinkStub, createLocalVue, mount} from '@vue/test-utils'
+import {shallowMount, RouterLinkStub, createLocalVue} from '@vue/test-utils'
 // @ts-ignore
 import merge from "lodash.merge"
 // @ts-ignore
@@ -7,6 +7,9 @@ import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
 import flushPromises from "flush-promises";
 import TheLayoutWrapMenuList from "@/components/TheLayoutWrapMenuList.vue";
+import Vue from "vue";
+
+Vue.use(Vuetify)
 
 const localVue = createLocalVue();
 localVue.use(Vuetify);
@@ -36,7 +39,6 @@ function createWrapper(overrides: any): any {
 
 describe('TheLayoutWrapMenuList.vue', () => {
 
-    let vuetify: Vuetify
     let itemsProp = [
         {
             icon: 'mdi-home-circle',
@@ -50,15 +52,9 @@ describe('TheLayoutWrapMenuList.vue', () => {
         },
     ];
 
-    beforeEach(() => {
-
-        vuetify = new Vuetify();
-    })
-
     test('should render TheLayoutWrapMenuList on mount', () => {
 
         const wrapper = createWrapper({
-            vuetify,
             propsData: {
                 itemsProp
             }
@@ -71,7 +67,6 @@ describe('TheLayoutWrapMenuList.vue', () => {
     test('render correct first link on menu', async () => {
 
         const wrapper = createWrapper({
-            vuetify,
             propsData: {
                 itemsProp
             }
@@ -86,7 +81,6 @@ describe('TheLayoutWrapMenuList.vue', () => {
     test('render correct second link on menu', async () => {
 
         const wrapper = createWrapper({
-            vuetify,
             propsData: {
                 itemsProp
             }

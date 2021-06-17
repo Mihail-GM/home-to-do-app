@@ -5,7 +5,10 @@
 			fixed
 			app
 		>
-			<TheLayoutWrapMenuList :items-prop="items"/>
+			<TheLayoutWrapMenuList
+				v-if="items"
+				:items-prop="items"
+			/>
 		</v-navigation-drawer>
 
 		<v-app-bar app>
@@ -17,16 +20,12 @@
 			<!-- -->
 		</v-app-bar>
 
-		<!-- Sizes your content based upon application components -->
-		<v-main>
+		<!-- Provides the application the proper gutter -->
+		<v-container fluid>
 
-			<!-- Provides the application the proper gutter -->
-			<v-container fluid>
-
-				<!-- If using vue-router -->
-				<router-view></router-view>
-			</v-container>
-		</v-main>
+			<!-- If using vue-router -->
+			<router-view></router-view>
+		</v-container>
 
 		<!--		<v-footer app>-->
 		<!--			&lt;!&ndash; &ndash;&gt;-->
@@ -35,7 +34,7 @@
 </template>
 
 <script>
-	import {defineComponent, ref, onMounted, computed, onUnmounted} from "@vue/composition-api";
+	import {defineComponent, ref} from "@vue/composition-api";
 	import TheLayoutWrapMenuList from "../components/TheLayoutWrapMenuList";
 
 	export default defineComponent({
@@ -61,7 +60,6 @@
 			])
 
 			return {
-
 				drawer,
 				items
 			};

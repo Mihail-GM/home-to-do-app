@@ -1,15 +1,19 @@
 import {shallowMount, mount, createLocalVue, Wrapper} from '@vue/test-utils'
 import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
+import Vue from "vue";
+import VueCompositionAPI from "@vue/composition-api";
+
+Vue.use(Vuetify)
+
+const localVue = createLocalVue();
+localVue.use(VueCompositionAPI);
 
 describe('HelloWorld.vue', () => {
-
 
     let wrapper;
 
     beforeEach(() => {
-        const localVue = createLocalVue();
-        localVue.use(Vuetify);
 
         wrapper = mount(Home, {
             localVue

@@ -6,6 +6,16 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import VueCompositionAPI from "@vue/composition-api"
 
+// @ts-ignore
+import {VclFacebook, VclInstagram, VclList} from 'vue-content-loading';
+// @ts-ignore
+import VueContentLoading from 'vue-content-loading';
+
+Vue.use(VclFacebook)
+Vue.use(VclInstagram)
+Vue.use(VclList)
+Vue.use(VueContentLoading)
+
 // Axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'

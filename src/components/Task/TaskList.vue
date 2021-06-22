@@ -2,20 +2,61 @@
 	<div>
 		<v-container style="max-width: 300px">
 
-			<h2 class="display-1 success--text pl-4">
-				Tasks:&nbsp;
-				<v-fade-transition leave-absolute>
-					<span :key="`tasks-${tasksGroup.tasks.length}`">
-					  {{ tasksGroup.tasks.length }}
-					</span>
-				</v-fade-transition>
-			</h2>
-
 			<v-divider class="mt-4"></v-divider>
 
 			<v-row
 				class="my-1"
-				align="center"
+			>
+				Task
+				<v-spacer></v-spacer>
+
+				<v-menu
+					bottom
+					left
+					offset-y
+					transition="scroll-y-transition"
+					id="more-option-button"
+				>
+					<template v-slot:activator="{ on, attrs }">
+						<v-btn
+							icon
+							v-bind="attrs"
+							v-on="on"
+						>
+							<v-icon>mdi-dots-vertical</v-icon>
+						</v-btn>
+					</template>
+
+					<v-card
+						class="mx-auto secondary"
+						max-width="300"
+						tile
+					>
+						<v-list dense>
+							<v-list-item-group
+								color="primary"
+							>
+								<v-list-item
+									v-for="(item, i) in items"
+									:key="i"
+								>
+									<v-list-item-icon>
+										<v-icon :id="'more-action-button-' + i">{{ item.icon }}</v-icon>
+									</v-list-item-icon>
+
+									<v-list-item-content>
+										<v-list-item-title>{{ item.title }}</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+							</v-list-item-group>
+						</v-list>
+					</v-card>
+				</v-menu>
+
+			</v-row>
+
+			<v-row
+				class="my-1"
 			>
 				<strong
 					class="mx-2 info--text text--darken-2"
@@ -85,7 +126,7 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent, computed, PropType} from "@vue/composition-api";
+	import {defineComponent, computed, PropType, ref} from "@vue/composition-api";
 	import TaskListItem from "@/components/Task/TaskListItem.vue";
 	import TasksListModel from "@/models/interfaces/TasksListModel";
 
@@ -102,6 +143,11 @@
 		emits: ['openAddTaskModal'],
 
 		setup(props, {emit}) {
+
+			let items = ref([
+				{icon: 'mdi-clipboard-edit-outline', title: 'Edit'},
+				{icon: 'mdi-delete-forever', title: 'Delete'}
+			]);
 
 			const tasksGroup = computed(() => props.taskListProp);
 
@@ -122,6 +168,7 @@
 				numberCompletedTasks,
 				progressOfTasks,
 				remainingTasks,
+				items
 			}
 		}
 	});

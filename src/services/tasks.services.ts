@@ -17,6 +17,21 @@ class TaskService {
             })
     }
 
+    getAllTasksGroup() {
+
+        return $axios.get(`/data/tasksLists?property=tasksGroupData`)
+            .then(res => {
+
+                return res.data;
+            })
+            .catch((error) => {
+
+                console.log(error)
+                throw error;
+            })
+    }
+
+
     addTask(data: TasksModel) {
 
         return $axios.post(`/data/tasks`, data)

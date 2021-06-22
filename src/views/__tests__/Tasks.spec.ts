@@ -43,13 +43,6 @@ describe('HelloWorld.vue', () => {
         expect(wrapper.is(Tasks)).toBe(true);
     });
 
-    test('renders header text - All tasks', () => {
-
-        const wrapper = createWrapper(null);
-
-        expect(wrapper.text()).toMatch("All tasks");
-    })
-
     test('renders add section button', () => {
 
         const wrapper = createWrapper(null);

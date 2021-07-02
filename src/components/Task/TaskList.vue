@@ -1,8 +1,9 @@
 <template>
 	<div>
-		<v-container style="max-width: 300px">
 
-			<v-divider class="mt-4"></v-divider>
+		<v-container style="max-width: 270px">
+
+			<v-divider class=" mt-4"></v-divider>
 
 			<v-row
 				class="my-1"
@@ -32,43 +33,54 @@
 						max-width="300"
 						tile
 					>
-						<v-list dense>
-							<v-list-item-group
-								color="primary"
-							>
-								<v-list-item
-									v-for="(item, i) in items"
-									:key="i"
-								>
+						<v-list dense flat>
+							<v-list-item-group color="secondary">
+								<v-list-item id="more-action-button-0" @click.native="editList">
 									<v-list-item-icon>
-										<v-icon :id="'more-action-button-' + i">{{ item.icon }}</v-icon>
+										<v-icon>mdi-clipboard-edit-outline</v-icon>
 									</v-list-item-icon>
 
 									<v-list-item-content>
-										<v-list-item-title>{{ item.title }}</v-list-item-title>
+										<v-list-item-title>Edit</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+
+								<v-list-item
+									id="more-action-button-1"
+									@click.native="deleteList(tasksGroup.objectId)"
+								>
+									<v-list-item-icon>
+										<v-icon>mdi-delete-forever</v-icon>
+									</v-list-item-icon>
+
+									<v-list-item-content>
+										<v-list-item-title>Delete</v-list-item-title>
 									</v-list-item-content>
 								</v-list-item>
 							</v-list-item-group>
 						</v-list>
 					</v-card>
 				</v-menu>
-
 			</v-row>
 
-			<v-row
-				class="my-1"
-			>
+			<v-row class="my-1">
+				<strong class="mx-2 success--text text--darken-2">
+					<v-divider vertical></v-divider>
+					Completed: {{ numberCompletedTasks }}
+				</strong>
+
+				<v-spacer></v-spacer>
+			</v-row>
+
+			<v-row class="my-1">
+
 				<strong
 					class="mx-2 info--text text--darken-2"
 					id="remaining"
 				>
+					<v-divider vertical></v-divider>
+
 					Remaining: {{ remainingTasks }}
-				</strong>
-
-				<v-divider vertical></v-divider>
-
-				<strong class="mx-2 success--text text--darken-2">
-					Completed: {{ numberCompletedTasks }}
 				</strong>
 
 				<v-spacer></v-spacer>
@@ -82,29 +94,25 @@
 				</span>
 			</v-row>
 
-			<v-divider class="mb-4"></v-divider>
+			<v-hover>
+				<v-card v-if="tasksGroup.tasks.length > 0">
+					<v-slide-y-transition
+						class="py-0"
+						group
+					>
+						<template v-for="(task, i) in tasksGroup.tasks">
 
-			<v-card v-if="tasksGroup.tasks.length > 0">
-				<v-slide-y-transition
-					class="py-0"
-					group
+							<task-list-item
+								v-if="task.done === false"
+								class=""
+								:key="`${i}-${task.title}`"
+								:task-prop="task"
+							/>
 
-				>
-					<template v-for="(task, i) in tasksGroup.tasks">
-						<v-divider
-							v-if="i !== 0"
-							:key="`${i}-divider`"
-						/>
-
-						<task-list-item
-							:key="`${i}-${task.title}`"
-							:task-prop="task"
-						/>
-
-					</template>
-				</v-slide-y-transition>
-			</v-card>
-
+						</template>
+					</v-slide-y-transition>
+				</v-card>
+			</v-hover>
 			<v-btn
 				text
 				color="dark"
@@ -122,6 +130,7 @@
 			</v-btn>
 
 		</v-container>
+
 	</div>
 </template>
 
@@ -129,6 +138,7 @@
 	import {defineComponent, computed, PropType, ref} from "@vue/composition-api";
 	import TaskListItem from "@/components/Task/TaskListItem.vue";
 	import TasksListModel from "@/models/interfaces/TasksListModel";
+	import TaskService from "@/services/tasks.services"
 
 	export default defineComponent({
 		name: "TaskList",
@@ -138,16 +148,16 @@
 			taskListProp: {
 				required: true,
 				type: Object as PropType<TasksListModel>,
+			},
+
+			taskListIdProp: {
+				required: true,
+				type: String
 			}
 		},
-		emits: ['openAddTaskModal'],
+		emits: ['openAddTaskModal', 'refreshTaskLists'],
 
 		setup(props, {emit}) {
-
-			let items = ref([
-				{icon: 'mdi-clipboard-edit-outline', title: 'Edit'},
-				{icon: 'mdi-delete-forever', title: 'Delete'}
-			]);
 
 			const tasksGroup = computed(() => props.taskListProp);
 
@@ -163,18 +173,33 @@
 				return tasksGroup.value.tasks.length - numberCompletedTasks.value;
 			});
 
+			const editList = (() => {
+
+				console.log("edit function");
+			});
+
+			const deleteList = (() => {
+
+				TaskService.deleteTask(props.taskListIdProp);
+				emit('refreshTaskLists');
+			});
+
 			return {
 				tasksGroup,
 				numberCompletedTasks,
 				progressOfTasks,
 				remainingTasks,
-				items
+				editList,
+				deleteList
 			}
 		}
 	});
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
+	::v-deep .v-sheet.v-card:not(.v-sheet--outlined) {
+		box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 20%), 0px 0px 0px 0px rgb(0 0 0 / 14%), 0px 0px 0px 0px rgb(0 0 0 / 12%);
+	}
 </style>

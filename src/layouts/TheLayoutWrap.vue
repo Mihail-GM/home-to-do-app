@@ -20,10 +20,7 @@
 			<!-- -->
 		</v-app-bar>
 
-		<!-- Provides the application the proper gutter -->
 		<v-container fluid>
-
-			<!-- If using vue-router -->
 			<router-view></router-view>
 		</v-container>
 
@@ -35,7 +32,7 @@
 
 <script>
 	import {defineComponent, ref} from "@vue/composition-api";
-	import TheLayoutWrapMenuList from "../components/TheLayoutWrapMenuList";
+	import TheLayoutWrapMenuList from "./TheLayoutWrapMenuList";
 
 	export default defineComponent({
 		name: "TheLayoutWrap",
@@ -52,10 +49,41 @@
 					title: 'Home',
 					to: '/'
 				},
+
 				{
 					icon: 'mdi-clock',
 					title: 'Tasks',
 					to: '/tasks'
+				},
+
+				{
+					icon: 'mdi-television',
+					title: 'Living Room',
+					to: '/living-room'
+				},
+
+				{
+					icon: 'mdi-bed',
+					title: 'Bedroom',
+					to: '/bedroom'
+				},
+
+				{
+					icon: 'mdi-knife',
+					title: 'Kitchen',
+					to: '/kitchen'
+				},
+
+				{
+					icon: 'mdi-pizza',
+					title: 'Dining Room',
+					to: '/dining-room'
+				},
+
+				{
+					icon: 'mdi-duck',
+					title: 'Bathroom',
+					to: '/bathroom'
 				},
 			])
 

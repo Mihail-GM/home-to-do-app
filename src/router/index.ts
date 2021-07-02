@@ -25,6 +25,31 @@ const routes: Array<RouteConfig> = [
                 path: '/tasks',
                 component: Tasks,
             },
+
+            {
+                path: '/living-room',
+                component: Tasks,
+            },
+
+            {
+                path: '/bedroom',
+                component: Tasks,
+            },
+
+            {
+                path: '/kitchen',
+                component: Tasks,
+            },
+
+            {
+                path: '/dining-room',
+                component: Tasks,
+            },
+
+            {
+                path: '/bathroom',
+                component: Tasks,
+            },
         ],
     },
     {

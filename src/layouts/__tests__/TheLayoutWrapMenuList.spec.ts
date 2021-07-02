@@ -6,7 +6,7 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
 import flushPromises from "flush-promises";
-import TheLayoutWrapMenuList from "@/components/TheLayoutWrapMenuList.vue";
+import TheLayoutWrapMenuList from "@/layouts/TheLayoutWrapMenuList.vue";
 import Vue from "vue";
 
 Vue.use(Vuetify)

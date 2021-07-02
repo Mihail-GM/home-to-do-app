@@ -175,4 +175,25 @@ describe('TaskList.vue', () => {
 
         expect(element.exists()).toBe(true);
     });
+
+    test('should render more option icon', async () => {
+
+        const wrapper = createWrapper({
+            propsData: {
+                taskListProp: {
+                    name: "task group 1",
+                    tasks: [
+                        {done: false, title: 'test', url: 'test'},
+                        {done: true, title: "test", url: 'test'}
+                    ]
+                }
+            }
+        });
+
+        for (let i = 0 ; i < 2 ; i++) {
+
+            const element = wrapper.find('#more-action-button-' + i);
+            expect(element.exists()).toBe(true);
+        }
+    });
 })

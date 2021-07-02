@@ -28,7 +28,9 @@
 							style="min-width: 300px; overflow-x: auto!important;"
 							v-if="taskList && taskList.tasksGroupData"
 							:taskListProp="taskList.tasksGroupData"
+							:taskListIdProp="taskList.objectId"
 							@openAddTaskModal="openAddTaskModalHandler"
+							@refreshTaskLists="fetchTaskListsData"
 						/>
 					</div>
 				</div>
@@ -65,7 +67,7 @@
 			VclList,
 			VueContentLoading
 		},
-		emits: ['openAddTaskModal'],
+		emits: ['openAddTaskModal', 'refreshTaskLists'],
 
 		setup() {
 			const taskTest = ref({
@@ -88,19 +90,22 @@
 				return TaskService.getAllTasksGroup()
 					.then((res) => {
 
-							// console.log("res.data: " + res.tasksGroupData);
+							allTasksLists.value = res;
+							console.log("res.data: " + allTasksLists.value);
 							return res
 						}
 					);
 
 			});
 
+			const refreshTaskListsHandler = (async () => {
+
+				await fetchTaskListsData();
+			});
+
 			onBeforeMount(async () => {
 
-				let data = await fetchTaskListsData();
-
-				console.log('data!' + data);
-				allTasksLists.value = data;
+				await fetchTaskListsData();
 			});
 
 			return {
@@ -108,6 +113,7 @@
 				allTasksLists,
 				openAddTaskModalHandler,
 				showCreateTaskModal,
+				fetchTaskListsData
 			};
 		}
 	});

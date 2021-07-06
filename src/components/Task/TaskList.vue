@@ -3,7 +3,7 @@
 
 		<v-container style="max-width: 270px">
 
-			<v-divider class=" mt-4"></v-divider>
+			<v-divider class="mt-4"></v-divider>
 
 			<v-row
 				class="my-1"

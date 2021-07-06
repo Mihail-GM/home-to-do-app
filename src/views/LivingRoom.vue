@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<TasksBaseView :roomTasksIdProp="Rooms.all"/>
+		<TasksBaseView :roomTasksIdProp="Rooms.LivingRoom">
+			<h1>Living room: all tasks</h1>
+		</TasksBaseView>
 	</div>
 </template>
 
@@ -26,4 +28,19 @@
 
 <style lang="scss" scoped>
 
+	.container {
+		display: flex;
+		overflow-x: auto;
+	}
+
+	.list-section {
+		display: flex;
+		box-sizing: border-box;
+		width: 100%;
+		height: calc(100vh - 129px);
+		padding: 0 47px 8px;
+		align-items: flex-start;
+		overflow-x: auto;
+		overscroll-behavior-x: none;
+	}
 </style>

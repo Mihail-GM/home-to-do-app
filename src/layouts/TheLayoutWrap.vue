@@ -52,8 +52,14 @@
 
 				{
 					icon: 'mdi-clock',
-					title: 'Tasks',
+					title: 'All tasks',
 					to: '/tasks'
+				},
+
+				{
+					icon: 'mdi-tooltip-account',
+					title: 'Members',
+					to: '/members'
 				},
 
 				{
@@ -84,6 +90,18 @@
 					icon: 'mdi-duck',
 					title: 'Bathroom',
 					to: '/bathroom'
+				},
+
+				{
+					icon: 'mdi-calendar',
+					title: 'Calendar',
+					to: '/calendar'
+				},
+
+				{
+					icon: 'mdi-information',
+					title: 'Tips',
+					to: '/tips'
 				},
 			])
 

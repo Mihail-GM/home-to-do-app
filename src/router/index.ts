@@ -3,6 +3,7 @@ import VueRouter, {RouteConfig} from 'vue-router'
 import Home from '../views/Home.vue'
 import AppContent from "@/AppContent.vue";
 import Tasks from "@/views/Tasks.vue";
+import LivingRoom from "@/views/LivingRoom.vue";
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,7 @@ const routes: Array<RouteConfig> = [
 
             {
                 path: '/living-room',
-                component: Tasks,
+                component: LivingRoom,
             },
 
             {

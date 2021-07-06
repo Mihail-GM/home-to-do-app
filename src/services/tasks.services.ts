@@ -3,66 +3,79 @@ import TasksModel from "@/models/interfaces/TasksModel";
 
 class TaskService {
 
-    getTask(id: number) {
+	getTask(id: number) {
 
-        return $axios.get(`/task/${id}`)
-            .then(res => {
+		return $axios.get(`/task/${id}`)
+			.then(res => {
 
-                return res.data;
-            })
-            .catch((error) => {
+				return res.data;
+			})
+			.catch((error) => {
 
-                console.log(error)
-                throw error;
-            })
-    }
+				console.log(error)
+				throw error;
+			})
+	}
 
-    getAllTasksGroup() {
+	getAllTasksGroup() {
 
-        return $axios.get(`/data/tasksLists`)
-            .then(res => {
+		return $axios.get(`/data/tasksLists`)
+			.then(res => {
 
-                return res.data;
-            })
-            .catch((error) => {
+				return res.data;
+			})
+			.catch((error) => {
 
-                console.log(error)
-                throw error;
-            })
-    }
+				console.log(error)
+				throw error;
+			})
+	}
 
+	getAllTasksGroupForRoom(id: string) {
 
-    addTask(data: TasksModel) {
+		return $axios.get(`/data/tasksLists?where=room_id.id%3D${id}`)
+			.then(res => {
 
-        return $axios.post(`/data/tasks`, data)
-            .then(res => {
+				return res.data;
+			})
+			.catch((error) => {
 
-                return res.data;
-            })
-            .catch((error) => {
+				console.log(error)
+				throw error;
+			})
+	}
 
-                console.log(error)
-                throw error;
-            })
-    }
+	addTask(data: TasksModel) {
 
-    deleteTask(objectId: any) {
+		return $axios.post(`/data/tasks`, data)
+			.then(res => {
 
-        return $axios.delete(`/data/tasksLists`, {
-            data: {
-                objectId
-            }
-        })
-            .then(res => {
+				return res.data;
+			})
+			.catch((error) => {
 
-                return res.data;
-            })
-            .catch((error) => {
+				console.log(error)
+				throw error;
+			})
+	}
 
-                console.log(error)
-                throw error;
-            })
-    }
+	deleteTask(objectId: any) {
+
+		return $axios.delete(`/data/tasksLists`, {
+			data: {
+				objectId
+			}
+		})
+			.then(res => {
+
+				return res.data;
+			})
+			.catch((error) => {
+
+				console.log(error)
+				throw error;
+			})
+	}
 
 }
 

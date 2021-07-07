@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 // @ts-ignore
 import merge from "lodash.merge"
 // @ts-ignore
@@ -16,184 +16,210 @@ Vue.use(Vuetify)
 const localVue = createLocalVue();
 localVue.use(VueCompositionAPI);
 
-const routes = [{path: '/tasks', component: Tasks}]
+const routes = [{ path: '/tasks', component: Tasks }]
 
 const router = new VueRouter({
-    routes
+	routes
 })
 
 function createWrapper(overrides: any): any {
 
-    let vuetify = new Vuetify()
+	let vuetify = new Vuetify()
 
-    const defaultMountingOptions = {
-        localVue,
-        vuetify,
-        router,
-    }
+	const defaultMountingOptions = {
+		localVue,
+		vuetify,
+		router,
+	}
 
-    return shallowMount(TaskList, merge(defaultMountingOptions, overrides));
+	return shallowMount(TaskList, merge(defaultMountingOptions, overrides));
 }
 
 describe('TaskList.vue', () => {
 
-    test('should render TaskList on mount', async () => {
+	test('should render TaskList on mount', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: false, title: "test", url: 'test'},
-                        {done: true, title: "check", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: false, title: "test", url: 'test' },
+						{ done: true, title: "check", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        await flushPromises();
+		await flushPromises();
 
-        expect(wrapper.is(TaskList)).toBe(true);
-    });
+		expect(wrapper.is(TaskList)).toBe(true);
+	});
 
-    test('should render 2 TaskListUItem component on mount', async () => {
+	test('should render 2 TaskListUItem component on mount', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: false, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: false, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        await flushPromises();
+		await flushPromises();
 
-        const components = wrapper.findAllComponents(TaskListItem);
+		const components = wrapper.findAllComponents(TaskListItem);
 
-        expect(components.length).toBe(2);
-    });
+		expect(components.length).toBe(2);
+	});
 
-    test('should show progress 50%', async () => {
+	test('should show progress 50%', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        const element = wrapper.find('#progress')
+		const element = wrapper.find('#progress')
 
-        expect(element.text()).toBe("50%");
-    });
+		expect(element.text()).toBe("50%");
+	});
 
-    test('should show remaining 1', async () => {
+	test('should show remaining 1', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        const element = wrapper.find('#remaining')
+		const element = wrapper.find('#remaining')
 
-        expect(element.text()).toBe("Remaining: 1");
-    });
+		expect(element.text()).toBe("Remaining: 1");
+	});
 
-    test('should render add button with text Add task', async () => {
+	test('should show remaining 1', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        const element = wrapper.find('#add-task-button span')
+		const element = wrapper.find('#remaining')
 
-        expect(element.text()).toBe("Add task");
-    });
+		expect(element.text()).toBe("Remaining: 0");
+	});
 
-    test('should open modal for adding task in task list', async () => {
+	test('should render add button with text Add task', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        const element = wrapper.find('#add-task-button')
+		const element = wrapper.find('#add-task-button span')
 
-        element.trigger('click');
-        await flushPromises();
+		expect(element.text()).toBe("Add task");
+	});
 
-        expect(wrapper.emitted().openAddTaskModal).toBeTruthy()
-    });
+	test('should open modal for adding task in task list', async () => {
 
-    test('should render more option icon', async () => {
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const element = wrapper.find('#add-task-button')
 
-        const element = wrapper.find('#more-option-button');
+		element.trigger('click');
+		await flushPromises();
 
-        expect(element.exists()).toBe(true);
-    });
+		expect(wrapper.emitted().openAddTaskModal).toBeTruthy()
+	});
 
-    test('should render more option icon', async () => {
+	test('should render more option icon', async () => {
 
-        const wrapper = createWrapper({
-            propsData: {
-                taskListProp: {
-                    name: "task group 1",
-                    tasks: [
-                        {done: false, title: 'test', url: 'test'},
-                        {done: true, title: "test", url: 'test'}
-                    ]
-                }
-            }
-        });
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
 
-        for (let i = 0 ; i < 2 ; i++) {
+		const element = wrapper.find('#more-option-button');
 
-            const element = wrapper.find('#more-action-button-' + i);
-            expect(element.exists()).toBe(true);
-        }
-    });
+		expect(element.exists()).toBe(true);
+	});
+
+	test('should render more option icon', async () => {
+
+		const wrapper = createWrapper({
+			propsData: {
+				taskListProp: {
+					name: "task group 1",
+					tasks: [
+						{ done: false, title: 'test', url: 'test' },
+						{ done: true, title: "test", url: 'test' }
+					]
+				},
+				taskListIdProp: '0'
+			}
+		});
+
+		for (let i = 0; i < 2; i++) {
+
+			const element = wrapper.find('#more-action-button-' + i);
+			expect(element.exists()).toBe(true);
+		}
+	});
 })

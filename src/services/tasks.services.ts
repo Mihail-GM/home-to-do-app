@@ -1,5 +1,5 @@
 import $axios from '../plugins/axios'
-import TasksModel from "@/models/interfaces/TasksModel";
+import TasksListModel from "@/models/interfaces/TasksListModel";
 
 class TaskService {
 
@@ -45,9 +45,9 @@ class TaskService {
 			})
 	}
 
-	addTask(data: TasksModel) {
+	addTask(data: TasksListModel) {
 
-		return $axios.post(`/data/tasks`, data)
+		return $axios.put(`/data/tasksLists`, data)
 			.then(res => {
 
 				return res.data;
@@ -59,7 +59,7 @@ class TaskService {
 			})
 	}
 
-	deleteTask(objectId: any) {
+	deleteTask(objectId: string) {
 
 		return $axios.delete(`/data/tasksLists`, {
 			data: {

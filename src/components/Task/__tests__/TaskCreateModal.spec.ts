@@ -1,13 +1,14 @@
-import {shallowMount, createLocalVue} from '@vue/test-utils'
-// @ts-ignore
-import merge from "lodash.merge"
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+
+const merge = require('lodash.merge');
+// import merge from "lodash.merge"
 // @ts-ignore
 import VueRouter from "vue-router";
 import Vuetify from 'vuetify'
 import flushPromises from "flush-promises";
 
 import Tasks from "../../../views/Tasks.vue";
-import VueCompositionAPI, {computed, ref} from "@vue/composition-api";
+import VueCompositionAPI, { computed, ref } from "@vue/composition-api";
 import TasksModel from "@/models/interfaces/TasksModel";
 import TaskCreateModal from "@/components/Task/TaskCreateModal.vue";
 import Vuex from "vuex";
@@ -22,158 +23,198 @@ jest.mock("@/services/tasks.services");
 const localVue = createLocalVue();
 localVue.use(VueCompositionAPI);
 
-const routes = [{path: '/tasks', component: Tasks}]
+const routes = [{ path: '/tasks', component: Tasks }]
 
 const router = new VueRouter({
-    routes
+	routes
 })
 
 function createStore(overrides: any) {
 
-    const defaultStoreConfig = {
-        modules: {
-            Tasks: {
-                namespaced: true,
-                state: {
-                    tasks: [
-                        {}
-                    ]
-                },
-            }
-        }
-    };
+	const defaultStoreConfig = {
+		modules: {
+			Tasks: {
+				namespaced: true,
+				state: {
+					tasks: [
+						{}
+					]
+				},
+			}
+		}
+	};
 
-    return new Vuex.Store(merge(defaultStoreConfig, overrides))
+	return new Vuex.Store(merge(defaultStoreConfig, overrides))
 }
 
 function createWrapper(overrides: any): any {
 
-    let vuetify = new Vuetify()
+	let vuetify = new Vuetify()
 
-    const defaultMountingOptions = {
-        localVue,
-        vuetify,
-        router,
-    }
+	const defaultMountingOptions = {
+		localVue,
+		vuetify,
+		router,
+	}
 
-    const dataOptions = {
-        setup() {
+	const dataOptions = {
+		setup() {
+		}
+	}
 
-            const tasks = ref<TasksModel[]>([
-                {done: false, title: 'test', url: 'test'},
-                {done: true, title: "check", url: 'test'},
-            ]);
-
-            const numberCompletedTasks = computed(() => {
-                return tasks.value.filter(task => task.done).length;
-            });
-
-            const progressOfTasks = computed(() => {
-                return numberCompletedTasks.value / tasks.value.length * 100;
-            });
-
-            const remainingTasks = computed(() => {
-                return tasks.value.length - numberCompletedTasks.value;
-            });
-
-            return {
-                tasks,
-                numberCompletedTasks,
-                progressOfTasks,
-                remainingTasks
-            }
-        }
-    }
-
-    return shallowMount(TaskCreateModal, merge(defaultMountingOptions, dataOptions, overrides));
+	const propsData = {
+		taskListProp: {
+			___class: "tasksLists",
+			created: 1625563465103,
+			id: null,
+			name: null,
+			objectId: "4ED7A807-709A-4DFA-B887-377E04EEB91C",
+			ownerId: null,
+			tasks: null,
+			tasksGroupData: {
+				name: "test group 1",
+				tasks: [
+					{
+						done: true,
+						title: "111",
+						url: "111",
+					}
+				],
+			},
+			updated: null
+		}
+	}
+	return shallowMount(TaskCreateModal, merge(defaultMountingOptions, propsData, overrides));
 }
-
 
 describe('TaskCreateModal.vue', () => {
 
-    test('should render TaskCreateModal on mount', async () => {
+	test('should render TaskCreateModal on mount', async () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        await flushPromises();
+		await flushPromises();
 
-        expect(wrapper.is(TaskCreateModal)).toBe(true);
-    });
+		expect(wrapper.is(TaskCreateModal)).toBe(true);
+	});
 
-    test('should have field for title', async () => {
+	test('should have field for title', async () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        const element = wrapper.find('#title-text-field');
+		const element = wrapper.find('#title-text-field');
 
-        expect(element.exists()).toBe(true);
-    });
+		expect(element.exists()).toBe(true);
+	});
 
-    test('should have close button', async () => {
+	test('should have close button', async () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        const element = wrapper.find('#close-button');
+		const element = wrapper.find('#close-button');
 
-        expect(element.exists()).toBe(true);
-    });
+		expect(element.exists()).toBe(true);
+	});
 
-    test('should have submit button', async () => {
+	test('should have submit button', async () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        const element = wrapper.find('#create-button');
+		const element = wrapper.find('#create-button');
 
-        expect(element.exists()).toBe(true);
-    });
+		expect(element.exists()).toBe(true);
+	});
 
-    test('add new task should set correct task to store', async () => {
+	test('add new task should set correct task to store', async () => {
 
-        let store = createStore(null);
-        TaskModule.saveTask = jest.fn(() => Promise.resolve());
+		let store = createStore(null);
+		TaskModule.saveTask = jest.fn(() => Promise.resolve());
 
-        const wrapper = createWrapper({
-            store
-        });
+		const taskListProp = {
+			___class: "tasksLists",
+			created: 1625563465103,
+			id: null,
+			name: null,
+			objectId: "4ED7A807-709A-4DFA-B887-377E04EEB91C",
+			ownerId: null,
+			tasks: null,
+			tasksGroupData: {
+				name: "test group 1",
+				tasks: [
+					{
+						done: true,
+						title: "111",
+						url: "111",
+					}
+				],
+			},
+			updated: null
+		};
 
-        const taskName = "Test name";
-        await wrapper.setData({task : {title: taskName}});
-        await flushPromises();
+		const wrapper = createWrapper({
+			store,
+			propsData: { taskListProp }
+		});
 
-        const title = wrapper.find('#title-text-field');
-        expect(title.attributes().value).toBe(taskName);
+		const taskName = "Test name";
+		await wrapper.setData({ task: { title: taskName } });
+		await flushPromises();
 
-        const element = wrapper.find('#create-button');
-        element.trigger('click');
-        await flushPromises();
+		const title = wrapper.find('#title-text-field');
+		expect(title.attributes().value).toBe(taskName);
 
-        expect(TaskModule.saveTask).toHaveBeenCalledWith( {
-            done: false,
-            title: taskName,
-            url: 'test',
-        });
-    });
+		const element = wrapper.find('#create-button');
+		element.trigger('click');
+		await flushPromises();
 
-    test('save button should emit update to close the modal', async () => {
+		expect(wrapper.vm.showDialog).toBe(false);
 
-        const wrapper = createWrapper(null);
+		expect(TaskModule.saveTask).toHaveBeenCalledWith(wrapper.vm.taskListProp);
+	});
 
-        const element = wrapper.find('#create-button');
-        element.trigger('click');
-        await flushPromises();
+	test('save button should emit update to close the modal', async () => {
 
-        expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
-    });
+		const taskListProp = {
+			___class: "tasksLists",
+			created: 1625563465103,
+			id: null,
+			name: null,
+			objectId: "4ED7A807-709A-4DFA-B887-377E04EEB91C",
+			ownerId: null,
+			tasks: null,
+			tasksGroupData: {
+				name: "test group 1",
+				tasks: [
+					{
+						done: true,
+						title: "111",
+						url: "111",
+					}
+				],
+			},
+			updated: null
+		};
 
-    test('close button should emit update to close the modal', async () => {
+		const wrapper = createWrapper({
+			propsData: { taskListProp }
+		});
 
-        const wrapper = createWrapper(null);
+		const element = wrapper.find('#create-button');
+		element.trigger('click');
+		await flushPromises();
 
-        const element = wrapper.find('#close-button');
-        element.trigger('click');
-        await flushPromises();
+		expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
+	});
 
-        expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
-    });
+	test('close button should emit update to close the modal', async () => {
+
+		const wrapper = createWrapper(null);
+
+		const element = wrapper.find('#close-button');
+		element.trigger('click');
+		await flushPromises();
+
+		expect(wrapper.emitted('update:showDialogProp')).toBeTruthy()
+	});
 
 })

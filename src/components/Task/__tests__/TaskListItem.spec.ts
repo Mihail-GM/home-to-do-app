@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 // @ts-ignore
 import merge from "lodash.merge"
 // @ts-ignore
@@ -13,96 +13,78 @@ Vue.use(Vuetify)
 
 const localVue = createLocalVue();
 
-const routes = [{path: '/dashboard', component: Home}]
+const routes = [{ path: '/dashboard', component: Home }]
 
 const router = new VueRouter({
-    routes
+	routes
 })
 
 function createWrapper(overrides: any): any {
 
-    let vuetify = new Vuetify()
+	let vuetify = new Vuetify()
 
-    const defaultMountingOptions = {
-        localVue,
-        vuetify,
-        stubs: ['router-link', 'router-view'],
-        router,
-    }
+	const defaultMountingOptions = {
+		localVue,
+		vuetify,
+		stubs: ['router-link', 'router-view'],
+		router,
+	}
 
-    return shallowMount(TaskListItem, merge(defaultMountingOptions, overrides));
+	return shallowMount(TaskListItem, merge(defaultMountingOptions, overrides));
 }
 
 describe('TaskListItem.vue', () => {
 
-    test('should render TaskListItem on mount', async () => {
+	test('should render TaskListItem on mount', async () => {
 
-        const taskProp = {
-            url: 'http://some-url.com',
-            title: 'some-title',
-            done: false
-        };
-        const wrapper = createWrapper({
-            propsData: {taskProp}
-        });
+		const taskProp = {
+			url: 'http://some-url.com',
+			title: 'some-title',
+			done: false
+		};
+		const wrapper = createWrapper({
+			propsData: { taskProp }
+		});
 
-        await flushPromises();
+		await flushPromises();
 
-        expect(wrapper.is(TaskListItem)).toBe(true);
-    });
+		expect(wrapper.is(TaskListItem)).toBe(true);
+	});
 
+	test('renders a empty check box when done is false', async () => {
 
-    test('renders a link to the item.url with item.title as text', async () => {
+		const taskProp = {
+			url: 'http://some-url.com',
+			title: 'some-title',
+			done: false
+		};
+		const wrapper = createWrapper({
+			propsData: { taskProp }
+		});
 
-        const taskProp = {
-            url: 'http://some-url.com',
-            title: 'some-title',
-            done: false
-        };
-        const wrapper = createWrapper({
-            propsData: {taskProp}
-        });
+		await flushPromises();
 
-        const a = wrapper.find('a');
+		const element = wrapper.find('#done-checkbox');
 
-        expect(a.text()).toBe("show details");
-        expect(a.attributes().href === taskProp.url).toBe(true);
-    });
+		expect(element.attributes().inputvalue).toBe(undefined)
+	});
 
-    test('renders a empty check box when done is false', async () => {
+	test('renders a checked check box when done is true', async () => {
 
-        const taskProp = {
-            url: 'http://some-url.com',
-            title: 'some-title',
-            done: false
-        };
-        const wrapper = createWrapper({
-            propsData: {taskProp}
-        });
+		const taskProp = {
+			url: 'http://some-url.com',
+			title: 'some-title',
+			done: true
+		};
+		const wrapper = createWrapper({
+			propsData: { taskProp }
+		});
 
-        await flushPromises();
+		await flushPromises();
 
-        const element = wrapper.find('#done-checkbox');
+		const element = wrapper.find('#done-checkbox');
 
-        expect(element.attributes().inputvalue).toBe(undefined)
-    });
+		expect(element.attributes().inputvalue).toBe("true");
 
-    test('renders a checked check box when done is true', async () => {
-
-        const taskProp = {
-            url: 'http://some-url.com',
-            title: 'some-title',
-            done: true
-        };
-        const wrapper = createWrapper({
-            propsData: {taskProp}
-        });
-
-        await flushPromises();
-
-        const element = wrapper.find('#done-checkbox');
-
-        expect(element.attributes().inputvalue).toBe("true");
-
-    })
+	})
 })

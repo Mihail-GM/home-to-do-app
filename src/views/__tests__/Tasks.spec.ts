@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import VueCompositionAPI from "@vue/composition-api";
 import Tasks from "@/views/Tasks.vue";
@@ -13,42 +13,42 @@ Vue.use(Vuetify)
 const localVue = createLocalVue();
 localVue.use(VueCompositionAPI);
 
-const routes = [{path: '/tasks', component: Tasks}]
+const routes = [{ path: '/tasks', component: Tasks }]
 
 const router = new VueRouter({
-    routes
+	routes
 })
 
 function createWrapper(overrides: any): any {
 
-    let vuetify = new Vuetify()
+	let vuetify = new Vuetify()
 
-    const defaultMountingOptions = {
-        localVue,
-        vuetify,
-        router,
-    }
+	const defaultMountingOptions = {
+		localVue,
+		vuetify,
+		router,
+	}
 
-    return shallowMount(Tasks, merge(defaultMountingOptions, overrides));
+	return mount(Tasks, merge(defaultMountingOptions, overrides));
 }
 
-describe('HelloWorld.vue', () => {
+describe('Tasks.vue', () => {
 
-    test('should render TaskCreateModal on mount', async () => {
+	test('should render Tasks on mount', async () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        await flushPromises();
+		await flushPromises();
 
-        expect(wrapper.is(Tasks)).toBe(true);
-    });
+		expect(wrapper.is(Tasks)).toBe(true);
+	});
 
-    test('renders add section button', () => {
+	test('renders add section button', () => {
 
-        const wrapper = createWrapper(null);
+		const wrapper = createWrapper(null);
 
-        const element = wrapper.find('#add-section-button');
+		const element = wrapper.find('#add-section-button');
 
-        expect(element.text()).toMatch("Add section");
-    })
+		expect(element.text()).toMatch("Add section");
+	})
 })

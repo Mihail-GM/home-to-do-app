@@ -52,10 +52,11 @@
 </template>
 
 <script lang="ts">
-	import {computed, defineComponent, ref} from "@vue/composition-api";
+	import { computed, defineComponent, PropType, ref } from "@vue/composition-api";
 	import TasksModel from "@/models/interfaces/TasksModel";
 	import TaskService from "@/services/tasks.services"
 	import TaskModule from "@/store/modules/Tasks"
+	import TasksListModel from "@/models/interfaces/TasksListModel";
 
 	export default defineComponent({
 		name: "TaskCreateModal",
@@ -64,6 +65,13 @@
 				require: true,
 				default: false,
 				type: Boolean
+			},
+
+			taskListProp: {
+				require: true,
+				default: () => {
+				},
+				type: Object as PropType<TasksListModel>
 			}
 		},
 
@@ -82,9 +90,19 @@
 				set: (value) => emit('update:showDialogProp', value)
 			});
 
+			const createNewObjectWithNewTaskToSave = (() => {
+
+				let tasks = Object.assign({}, props.taskListProp);
+				tasks.tasksGroupData.tasks.push(task.value);
+
+				return tasks;
+			});
+
 			const saveTask = (async () => {
 
-				TaskService.addTask(task.value)
+				let newTaskList = createNewObjectWithNewTaskToSave();
+
+				TaskService.addTask(newTaskList)
 					.then(async res => {
 						await TaskModule.saveTask(res);
 						showDialog.value = false;

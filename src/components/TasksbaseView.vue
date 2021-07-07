@@ -27,7 +27,7 @@
 							v-if="taskList && taskList.tasksGroupData"
 							:taskListProp="taskList.tasksGroupData"
 							:taskListIdProp="taskList.objectId"
-							@openAddTaskModal="openAddTaskModalHandler"
+							@openAddTaskModal="openAddTaskModalHandler(index)"
 							@refreshTaskLists="fetchTaskListsData"
 						/>
 					</div>
@@ -35,6 +35,7 @@
 			</div>
 
 			<task-create-modal
+				:taskListProp.sync="allTasksLists[taskListToEditIndex]"
 				:show-dialog-prop.sync="showCreateTaskModal"
 			/>
 		</v-container>
@@ -45,12 +46,10 @@
 <script lang="ts">
 
 	import TaskListItem from "@/components/Task/TaskListItem.vue";
-	import {defineComponent, ref, onBeforeMount} from "@vue/composition-api";
+	import { defineComponent, ref, onBeforeMount } from "@vue/composition-api";
 	import TaskList from "@/components/Task/TaskList.vue";
 	import TaskCreateModal from "@/components/Task/TaskCreateModal.vue";
 	import TaskService from "@/services/tasks.services"
-	// @ts-ignore
-	import {VclFacebook, VclInstagram, VclList, VueContentLoading} from 'vue-content-loading';
 
 	export default defineComponent({
 		name: "TasksBaseView",
@@ -58,10 +57,6 @@
 			TaskCreateModal,
 			TaskList,
 			TaskListItem,
-			VclFacebook,
-			VclInstagram,
-			VclList,
-			VueContentLoading
 		},
 
 		props: {
@@ -76,18 +71,13 @@
 
 		setup(props) {
 
-			const taskTest = ref({
-				url: 'mdi-home-circle',
-				title: 'Home',
-				done: true
-			})
-
+			const taskListToEditIndex = ref();
 			const showCreateTaskModal = ref(false);
-			let allTasksLists = ref({tasksGroupData: null});
+			let allTasksLists = ref({ tasksGroupData: null });
 
-			const openAddTaskModalHandler = (() => {
+			const openAddTaskModalHandler = ((index: number) => {
 
-				console.log("handler");
+				taskListToEditIndex.value = index;
 				showCreateTaskModal.value = true;
 			});
 
@@ -97,7 +87,6 @@
 					.then((res) => {
 
 							allTasksLists.value = res;
-							console.log("res.data: " + allTasksLists.value);
 							return res
 						}
 					);
@@ -109,7 +98,6 @@
 					.then((res) => {
 
 							allTasksLists.value = res;
-							console.log("res.data: " + allTasksLists.value);
 							return res
 						}
 					);
@@ -117,7 +105,6 @@
 
 			onBeforeMount(async () => {
 
-				console.log('test')
 				if (props.roomTasksIdProp === 'get all tasks') {
 					await fetchTaskListsData();
 					return;
@@ -127,11 +114,11 @@
 			});
 
 			return {
-				taskTest,
 				allTasksLists,
 				openAddTaskModalHandler,
 				showCreateTaskModal,
-				fetchTaskListsData
+				fetchTaskListsData,
+				taskListToEditIndex
 			};
 		}
 	});

@@ -135,19 +135,19 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent, computed, PropType, ref} from "@vue/composition-api";
+	import { defineComponent, computed, PropType } from "@vue/composition-api";
 	import TaskListItem from "@/components/Task/TaskListItem.vue";
-	import TasksListModel from "@/models/interfaces/TasksListModel";
+	import { TasksListInfoModel } from "@/models/interfaces/TasksListInfoModel";
 	import TaskService from "@/services/tasks.services"
 
 	export default defineComponent({
 		name: "TaskList",
-		components: {TaskListItem},
+		components: { TaskListItem },
 
 		props: {
 			taskListProp: {
 				required: true,
-				type: Object as PropType<TasksListModel>,
+				type: Object as PropType<TasksListInfoModel>,
 			},
 
 			taskListIdProp: {
@@ -157,7 +157,7 @@
 		},
 		emits: ['openAddTaskModal', 'refreshTaskLists'],
 
-		setup(props, {emit}) {
+		setup(props, { emit }) {
 
 			const tasksGroup = computed(() => props.taskListProp);
 

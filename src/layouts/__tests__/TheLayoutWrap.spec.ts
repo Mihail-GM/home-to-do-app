@@ -6,7 +6,6 @@ import merge from "lodash.merge"
 import VueRouter from "vue-router";
 import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
-import flushPromises from "flush-promises";
 import Vue from "vue";
 
 Vue.use(Vuetify)

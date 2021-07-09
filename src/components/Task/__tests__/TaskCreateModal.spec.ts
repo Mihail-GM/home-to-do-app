@@ -8,8 +8,7 @@ import Vuetify from 'vuetify'
 import flushPromises from "flush-promises";
 
 import Tasks from "../../../views/Tasks.vue";
-import VueCompositionAPI, { computed, ref } from "@vue/composition-api";
-import TasksModel from "@/models/interfaces/TasksModel";
+import VueCompositionAPI from "@vue/composition-api";
 import TaskCreateModal from "@/components/Task/TaskCreateModal.vue";
 import Vuex from "vuex";
 
@@ -55,11 +54,6 @@ function createWrapper(overrides: any): any {
 		localVue,
 		vuetify,
 		router,
-	}
-
-	const dataOptions = {
-		setup() {
-		}
 	}
 
 	const propsData = {

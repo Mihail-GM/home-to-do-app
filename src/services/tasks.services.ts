@@ -1,5 +1,5 @@
 import $axios from '../plugins/axios'
-import TasksListModel from "@/models/interfaces/TasksListModel";
+import { TasksListEntityModel } from "@/models/interfaces/TasksListInfoModel";
 
 class TaskService {
 
@@ -45,7 +45,7 @@ class TaskService {
 			})
 	}
 
-	addTask(data: TasksListModel) {
+	addTask(data: TasksListEntityModel) {
 
 		return $axios.put(`/data/tasksLists`, data)
 			.then(res => {

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent, ref, onMounted, computed, onUnmounted } from "@vue/composition-api";
+	import { defineComponent } from "@vue/composition-api";
 	import TheLayoutWrap from "@/layouts/TheLayoutWrap.vue"
 
 	export default defineComponent({

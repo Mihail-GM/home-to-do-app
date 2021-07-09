@@ -35,7 +35,8 @@
 			</div>
 
 			<task-create-modal
-				:taskListProp.sync="allTasksLists[taskListToEditIndex]"
+				v-if="showCreateTaskModal"
+				:taskListProp="allTasksLists[taskListToEditIndex]"
 				:show-dialog-prop.sync="showCreateTaskModal"
 			/>
 		</v-container>

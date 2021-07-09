@@ -1,7 +1,8 @@
 import Vue from 'vue'
-import Vuex, {Module} from 'vuex'
+import Vuex from 'vuex'
 
 import Tasks from "./modules/Tasks"
+import Snackbar from "@/store/modules/Snackbar";
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ const store = new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
-        Tasks
+        Tasks,
+        Snackbar
     }
 });
 

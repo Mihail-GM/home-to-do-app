@@ -1,4 +1,4 @@
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import VueCompositionAPI from "@vue/composition-api";
 import Tasks from "@/views/Tasks.vue";

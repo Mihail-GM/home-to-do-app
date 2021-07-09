@@ -64,7 +64,7 @@
 						<v-divider></v-divider>
 
 						<v-list dense flat>
-							<v-list-item id="edit-single-task-button" @click.native="editList">
+							<v-list-item id="edit-single-task-button" @click.native="">
 								<v-list-item-icon>
 									<v-icon>mdi-clipboard-edit-outline</v-icon>
 								</v-list-item-icon>
@@ -77,7 +77,7 @@
 							<v-divider></v-divider>
 
 							<span class="ml-2"> Room </span>
-							<v-list-item id="change-room" @click.native="changeRoom">
+							<v-list-item id="change-room" @click.native="">
 
 								<v-tooltip top>
 									<template v-slot:activator="{ on, attrs }">
@@ -122,7 +122,7 @@
 
 							<v-divider></v-divider>
 
-							<v-list-item id="schedule-single-task-button" @click.native="editList">
+							<v-list-item id="schedule-single-task-button" @click.native="">
 
 								<v-list-item-icon>
 									<v-icon>mdi-clock</v-icon>
@@ -137,7 +137,7 @@
 
 							<span class="ml-2"> Priority </span>
 
-							<v-list-item id="change-flag" @click.native="changeFlag">
+							<v-list-item id="change-flag" @click.native="">
 
 								<v-list-item-icon>
 									<v-icon color="red">mdi-flag</v-icon>
@@ -173,7 +173,7 @@
 
 							<v-divider></v-divider>
 
-							<v-list-item @click.native="editList">
+							<v-list-item @click.native="">
 
 								<v-list-item-icon>
 									<v-icon>mdi-alarm-plus</v-icon>
@@ -184,7 +184,7 @@
 								</v-list-item-content>
 							</v-list-item>
 
-							<v-list-item @click.native="editList">
+							<v-list-item @click.native="">
 
 								<v-list-item-icon>
 									<v-icon>mdi-delete</v-icon>
@@ -204,7 +204,7 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent, ref, computed, PropType} from "@vue/composition-api";
+	import { defineComponent, computed, PropType } from "@vue/composition-api";
 	import TasksModel from "@/models/interfaces/TasksModel"
 
 	export default defineComponent({

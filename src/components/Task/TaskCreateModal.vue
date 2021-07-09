@@ -33,7 +33,7 @@
 					color="red darken-1"
 					id="close-button"
 					text
-					@click.native="$emit('update:showDialogProp', false)"
+					@click.native="closeModal"
 				>
 					Close
 				</v-btn>
@@ -56,7 +56,8 @@
 	import TasksModel from "@/models/interfaces/TasksModel";
 	import TaskService from "@/services/tasks.services"
 	import TaskModule from "@/store/modules/Tasks"
-	import TasksListModel from "@/models/interfaces/TasksListModel";
+	import SnackbarModule from "@/store/modules/Snackbar"
+	import { TasksListEntityModel } from "@/models/interfaces/TasksListInfoModel";
 
 	export default defineComponent({
 		name: "TaskCreateModal",
@@ -71,7 +72,7 @@
 				require: true,
 				default: () => {
 				},
-				type: Object as PropType<TasksListModel>
+				type: Object as PropType<TasksListEntityModel>
 			}
 		},
 
@@ -90,9 +91,13 @@
 				set: (value) => emit('update:showDialogProp', value)
 			});
 
+			const closeModal = (() => {
+				emit('update:showDialogProp', false);
+			});
+
 			const createNewObjectWithNewTaskToSave = (() => {
 
-				let tasks = Object.assign({}, props.taskListProp);
+				let tasks = props.taskListProp;
 				tasks.tasksGroupData.tasks.push(task.value);
 
 				return tasks;
@@ -104,11 +109,18 @@
 
 				TaskService.addTask(newTaskList)
 					.then(async res => {
+
 						await TaskModule.saveTask(res);
 						showDialog.value = false;
+						await SnackbarModule.showSnackbarMessage(
+							"New task added successfully"
+						);
 					})
 					.catch(() => {
-						//error createing task TODO
+						//error creating task TODO
+						SnackbarModule.showSnackbarMessage(
+							"Something went wrong when adding new task"
+						);
 						showDialog.value = false;
 					})
 			});
@@ -116,7 +128,8 @@
 			return {
 				showDialog,
 				saveTask,
-				task
+				task,
+				closeModal
 			}
 		}
 	});

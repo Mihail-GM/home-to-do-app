@@ -1,4 +1,4 @@
-import {shallowMount, mount, createLocalVue, Wrapper} from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import Home from "@/views/Home.vue";
 import Vuetify from 'vuetify'
 import Vue from "vue";
@@ -11,33 +11,33 @@ localVue.use(VueCompositionAPI);
 
 describe('HelloWorld.vue', () => {
 
-    let wrapper;
+	let wrapper;
 
-    beforeEach(() => {
+	beforeEach(() => {
 
-        wrapper = mount(Home, {
-            localVue
-        });
+		wrapper = mount(Home, {
+			localVue
+		});
 
-    })
+	})
 
-    test('renders props.msg when passed', () => {
+	test('renders props.msg when passed', () => {
 
-        const wrapper2 = shallowMount(Home);
+		const wrapper2 = shallowMount(Home);
 
-        expect(wrapper2.text()).toMatch("Home tasks App");
-    })
+		expect(wrapper2.text()).toMatch("Home tasks App");
+	})
 
-    test('renders props.msg when passed', () => {
-        const localVue = createLocalVue();
-        let vuetify = new Vuetify()
+	test('renders props.msg when passed', () => {
+		const localVue = createLocalVue();
+		let vuetify = new Vuetify()
 
-        const wrapper = shallowMount(Home, {
-            localVue,
-            vuetify
-        });
+		const wrapper = shallowMount(Home, {
+			localVue,
+			vuetify
+		});
 
-        expect(wrapper.text()).toMatch("Home tasks App");
-    })
+		expect(wrapper.text()).toMatch("Home tasks App");
+	})
 
 })

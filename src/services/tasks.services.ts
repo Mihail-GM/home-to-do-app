@@ -1,5 +1,6 @@
 import $axios from '../plugins/axios'
 import { TasksListEntityModel } from "@/models/interfaces/TasksListInfoModel";
+import TasksModel from "@/models/interfaces/TasksModel";
 
 class TaskService {
 
@@ -33,7 +34,7 @@ class TaskService {
 
 	getAllTasksGroupForRoom(id: string) {
 
-		return $axios.get(`/data/tasksLists?where=room_id.id%3D${id}`)
+		return $axios.get(`/data/tasksLists?where=room_id%3D'${id}'`)
 			.then(res => {
 
 				return res.data;
@@ -77,6 +78,33 @@ class TaskService {
 			})
 	}
 
+	addTaskList(data: TasksListEntityModel) {
+
+		return $axios.put(`/data/tasksLists`, data)
+			.then(res => {
+
+				return res.data;
+			})
+			.catch((error) => {
+
+				console.log(error)
+				throw error;
+			})
+	}
+
+	addTaskListRoom(data: TasksModel, roomId: any) {
+
+		return $axios.put(`/data/tasksLists/${data.objectId}/room_id`, [roomId])
+			.then(res => {
+
+				return res.data;
+			})
+			.catch((error) => {
+
+				console.log(error)
+				throw error;
+			})
+	}
 }
 
 export default new TaskService();

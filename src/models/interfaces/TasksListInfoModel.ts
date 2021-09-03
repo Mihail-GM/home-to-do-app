@@ -6,5 +6,7 @@ export interface TasksListInfoModel {
 }
 
 export interface TasksListEntityModel {
-    tasksGroupData: TasksListInfoModel
+    name: string,
+    room_id: number,
+    tasksGroupData: TasksListInfoModel,
 }

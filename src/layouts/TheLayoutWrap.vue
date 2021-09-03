@@ -91,18 +91,18 @@
 					title: 'Bathroom',
 					to: '/bathroom'
 				},
-
-				{
-					icon: 'mdi-calendar',
-					title: 'Calendar',
-					to: '/calendar'
-				},
-
-				{
-					icon: 'mdi-information',
-					title: 'Tips',
-					to: '/tips'
-				},
+				//
+				// {
+				// 	icon: 'mdi-calendar',
+				// 	title: 'Calendar',
+				// 	to: '/calendar'
+				// },
+				//
+				// {
+				// 	icon: 'mdi-information',
+				// 	title: 'Tips',
+				// 	to: '/tips'
+				// },
 			])
 
 			return {

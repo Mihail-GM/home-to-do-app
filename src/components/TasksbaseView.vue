@@ -7,6 +7,7 @@
 			outlined
 			color="indigo"
 			id="add-section-button"
+			@click.name="openTaskListCreateModal"
 		>
 			<v-icon left dark>
 				mdi-tooltip-plus-outline
@@ -26,9 +27,10 @@
 							style="min-width: 300px; overflow-x: auto!important;"
 							v-if="taskList && taskList.tasksGroupData"
 							:taskListProp="taskList.tasksGroupData"
+							:taskListNameProp="taskList.name"
 							:taskListIdProp="taskList.objectId"
 							@openAddTaskModal="openAddTaskModalHandler(index)"
-							@refreshTaskLists="fetchTaskListsData"
+							@refreshTaskLists="getAllTaskLists"
 						/>
 					</div>
 				</div>
@@ -39,6 +41,12 @@
 				:taskListProp="allTasksLists[taskListToEditIndex]"
 				:show-dialog-prop.sync="showCreateTaskModal"
 			/>
+
+			<task-list-create-modal
+				:show-dialog-prop.sync="showTaskListCreateModal"
+				@fetchTaskListsDataForRoom="getAllTaskLists"
+			/>
+
 		</v-container>
 	</div>
 
@@ -51,6 +59,7 @@
 	import TaskList from "@/components/Task/TaskList.vue";
 	import TaskCreateModal from "@/components/Task/TaskCreateModal.vue";
 	import TaskService from "@/services/tasks.services"
+	import TaskListCreateModal from "@/components/Task/TaskListCreateModal.vue";
 
 	export default defineComponent({
 		name: "TasksBaseView",
@@ -58,6 +67,7 @@
 			TaskCreateModal,
 			TaskList,
 			TaskListItem,
+			TaskListCreateModal,
 		},
 
 		props: {
@@ -68,12 +78,13 @@
 			}
 		},
 
-		emits: ['openAddTaskModal', 'refreshTaskLists'],
+		emits: ['openAddTaskModal', 'refreshTaskLists', 'fetchTaskListsDataForRoom'],
 
 		setup(props) {
 
 			const taskListToEditIndex = ref();
 			const showCreateTaskModal = ref(false);
+			const showTaskListCreateModal = ref(false);
 			let allTasksLists = ref({ tasksGroupData: null });
 
 			const openAddTaskModalHandler = ((index: number) => {
@@ -81,6 +92,11 @@
 				taskListToEditIndex.value = index;
 				showCreateTaskModal.value = true;
 			});
+
+			const openTaskListCreateModal = (() => {
+
+				showTaskListCreateModal.value = true;
+			})
 
 			const fetchTaskListsData = (() => {
 
@@ -104,7 +120,7 @@
 					);
 			});
 
-			onBeforeMount(async () => {
+			const getAllTaskLists = (async () => {
 
 				if (props.roomTasksIdProp === 'get all tasks') {
 					await fetchTaskListsData();
@@ -114,12 +130,20 @@
 				await fetchTaskListsDataForRoom(props.roomTasksIdProp);
 			});
 
+			onBeforeMount( () => {
+				getAllTaskLists();
+			});
+
 			return {
 				allTasksLists,
 				openAddTaskModalHandler,
 				showCreateTaskModal,
 				fetchTaskListsData,
-				taskListToEditIndex
+				taskListToEditIndex,
+				openTaskListCreateModal,
+				showTaskListCreateModal,
+				fetchTaskListsDataForRoom,
+				getAllTaskLists,
 			};
 		}
 	});

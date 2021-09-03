@@ -1,10 +1,10 @@
 enum Rooms {
 	all = 'get all tasks',
-	LivingRoom = '1',
-	Kitchen = '2',
-	Bedroom = '3',
-	DiningRoom = '4',
-	Bathroom = '5'
+	LivingRoom = '70B7C549-04D9-40E6-BF7A-E5466198FE83',
+	Kitchen = '00A6CA3D-2F7B-4A5B-9661-17419580C21D',
+	Bedroom = 'EF7D7CAF-77E6-409F-9544-F5025E6E850F',
+	DiningRoom = '68BD0CC6-6D1A-4D26-A5E8-83444CED0D93',
+	Bathroom = '242E6A49-050F-4F71-B7BF-1D0B67A97DB7'
 }
 
 export default Rooms;

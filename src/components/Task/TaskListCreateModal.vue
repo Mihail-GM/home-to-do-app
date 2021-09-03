@@ -7,23 +7,38 @@
 
 		<v-card>
 			<v-card-title>
-				<span class="headline">Create home task</span>
+				<span class="headline">Create new task list</span>
 			</v-card-title>
+
 			<v-card-text>
 				<v-container>
 					<v-row>
+						<v-col>
+							<v-text-field
+								label="Home task name*"
+								id="title-text-field"
+								type="title"
+								v-model="newTaskList.name"
+								data-cy="name-input"
+								required
+							/>
+						</v-col>
+					</v-row>
 
-						<v-text-field
-							label="Home task name*"
-							id="title-text-field"
-							type="title"
-							v-model="task.title"
-							data-cy="name-input"
-							required
-						/>
-
+					<v-row>
+						<v-col>
+							<v-select
+								v-model="newTaskList.room_id"
+								item-text="name"
+								item-value="id"
+								:items="rooms"
+								label="Standard"
+								dense
+							></v-select>
+						</v-col>
 					</v-row>
 				</v-container>
+
 				<small>*indicates required field</small>
 			</v-card-text>
 
@@ -42,7 +57,7 @@
 					color="green darken-1"
 					id="create-button"
 					text
-					@click.native="saveTask"
+					@click.native="saveTaskList"
 				>
 					Save
 				</v-btn>
@@ -52,38 +67,36 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, PropType, ref } from "@vue/composition-api";
-	import TasksModel from "@/models/interfaces/TasksModel";
+	import { computed, defineComponent, ref } from "@vue/composition-api";
 	import TaskService from "@/services/tasks.services"
 	import TaskModule from "@/store/modules/Tasks"
 	import SnackbarModule from "@/store/modules/Snackbar"
 	import { TasksListEntityModel } from "@/models/interfaces/TasksListInfoModel";
+	import Rooms from "@/models/constants";
 
 	export default defineComponent({
-		name: "TaskCreateModal",
+		name: "TaskListCreateModal",
 		props: {
 			showDialogProp: {
 				require: true,
 				default: false,
 				type: Boolean
 			},
-
-			taskListProp: {
-				require: true,
-				default: () => {
-				},
-				type: Object as PropType<TasksListEntityModel>
-			}
 		},
 
 		setup(props, { emit }) {
 
-			const task = ref<TasksModel>(
+			const rooms = Object.entries(Rooms).map(([key, value]) => ({ name: key, id: value }));
+			rooms.shift(); // remove all rooms from selection
+
+			const newTaskList = ref<TasksListEntityModel>(
 				{
-					objectId: '',
-					done: false,
-					title: 'test',
-					url: 'test',
+					name: 'New task list name',
+					room_id: 1,
+					tasksGroupData: {
+						name: '',
+						tasks: [],
+					},
 				}
 			);
 
@@ -96,31 +109,23 @@
 				emit('update:showDialogProp', false);
 			});
 
-			const createNewObjectWithNewTaskToSave = (() => {
+			const saveTaskList = (async () => {
 
-				let tasks = props.taskListProp;
-				tasks.tasksGroupData.tasks.push(task.value);
-
-				return tasks;
-			});
-
-			const saveTask = (async () => {
-
-				let newTaskList = createNewObjectWithNewTaskToSave();
-
-				TaskService.addTask(newTaskList)
+				TaskService.addTaskList(newTaskList.value)
 					.then(async res => {
 
+						await TaskService.addTaskListRoom(res, newTaskList.value.room_id);
 						await TaskModule.saveTask(res);
 						showDialog.value = false;
+						emit(`fetchTaskListsDataForRoom`);
 						await SnackbarModule.showSnackbarMessage(
-							"New task added successfully"
+							"New task list added successfully"
 						);
 					})
 					.catch(() => {
-						//error creating task TODO
+
 						SnackbarModule.showSnackbarMessage(
-							"Something went wrong when adding new task"
+							"Something went wrong when adding new task list"
 						);
 						showDialog.value = false;
 					})
@@ -128,9 +133,10 @@
 
 			return {
 				showDialog,
-				saveTask,
-				task,
-				closeModal
+				saveTaskList,
+				newTaskList,
+				closeModal,
+				rooms
 			}
 		}
 	});

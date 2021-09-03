@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<TasksBaseView :roomTasksIdProp="Rooms.LivingRoom">
-			<h1>Living room: all tasks</h1>
+		<TasksBaseView :roomTasksIdProp="Rooms.Bedroom">
+			<h1>Bedroom: all tasks</h1>
 		</TasksBaseView>
 	</div>
 </template>
@@ -12,7 +12,7 @@
 	import Rooms from "@/models/constants";
 
 	export default defineComponent({
-		name: "Tasks",
+		name: "Bedroom",
 		components: {
 			TasksBaseView
 		},
@@ -27,7 +27,6 @@
 </script>
 
 <style lang="scss" scoped>
-
 	.container {
 		display: flex;
 		overflow-x: auto;

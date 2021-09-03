@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 	<div>
 
 		<v-container style="max-width: 270px">
@@ -8,7 +8,7 @@
 			<v-row
 				class="my-1"
 			>
-				Task
+				{{ taskListNameProp }}
 				<v-spacer></v-spacer>
 
 				<v-menu
@@ -94,25 +94,24 @@
 				</span>
 			</v-row>
 
-			<v-hover>
-				<v-card v-if="tasksGroup.tasks.length > 0">
-					<v-slide-y-transition
-						class="py-0"
-						group
-					>
-						<template v-for="(task, i) in tasksGroup.tasks">
+			<v-card v-if="tasksGroup.tasks.length > 0">
+				<v-slide-y-transition
+					class="py-0"
+					group
+				>
+					<template v-for="(task, i) in tasksGroup.tasks">
 
-							<task-list-item
-								v-if="task.done === false"
-								class=""
-								:key="`${i}-${task.title}`"
-								:task-prop="task"
-							/>
+						<task-list-item
+							v-if="task.done === false"
+							class=""
+							:key="`${i}-${task.title}`"
+							:task-prop="task"
+						/>
 
-						</template>
-					</v-slide-y-transition>
-				</v-card>
-			</v-hover>
+					</template>
+				</v-slide-y-transition>
+			</v-card>
+
 			<v-btn
 				text
 				color="dark"
@@ -153,7 +152,12 @@
 			taskListIdProp: {
 				required: true,
 				type: String
-			}
+			},
+
+			taskListNameProp: {
+				required: true,
+				type: String,
+			},
 		},
 		emits: ['openAddTaskModal', 'refreshTaskLists'],
 
@@ -166,7 +170,9 @@
 			});
 
 			const progressOfTasks = computed(() => {
-				return Math.round((numberCompletedTasks.value / tasksGroup.value.tasks.length * 100));
+				return tasksGroup.value.tasks.length ?
+					Math.round((numberCompletedTasks.value / tasksGroup.value.tasks.length * 100)) :
+					0;
 			});
 
 			const remainingTasks = computed(() => {
@@ -178,9 +184,9 @@
 				console.log("edit function");
 			});
 
-			const deleteList = (() => {
+			const deleteList = (async () => {
 
-				TaskService.deleteTask(props.taskListIdProp);
+				await TaskService.deleteTask(props.taskListIdProp);
 				emit('refreshTaskLists');
 			});
 

@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 let $axios = axios.create({
-    baseURL: 'https://ruggedcompany.backendless.app/api',
-
+    baseURL: 'https://livelybat.backendless.app/api',
 });
 
 $axios.interceptors.response.use(
